@@ -47,6 +47,8 @@ class ViewAllTableViewController: UITableViewController {
 
         // Configure the cell...
         
+        cell.address = fullArray[indexPath.row].address
+        
         cell.restaurantNameLabel.text = fullArray[indexPath.row].name
         cell.reviewCountInTable.text = "\(fullArray[indexPath.row].reviewCount!) reviews"
         cell.distanceInTable.text = fullArray[indexPath.row].distance!
@@ -55,8 +57,6 @@ class ViewAllTableViewController: UITableViewController {
         let ratingurl = fullArray[indexPath.row].ratingImageURL!
         let ratingdata = NSData(contentsOfURL: ratingurl) //make sure your image in this url does exist, otherwise unwrap in a if let check
         cell.ratingsImageInTable.image = UIImage(data: ratingdata!)
-
-        
         
         return cell
     }

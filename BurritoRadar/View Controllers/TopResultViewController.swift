@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
 class TopResultViewController: UIViewController {
-
+    
     @IBOutlet weak var ratingImage: UIImageView!
     @IBOutlet weak var restaurantImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -26,6 +28,9 @@ class TopResultViewController: UIViewController {
     var distanceLabelText: String!
     var reviewCountText: String!
     
+    var shouldUseGoogleMaps: Bool!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,8 +40,29 @@ class TopResultViewController: UIViewController {
         distanceLabel.text = distanceLabelText + "les away"
         ratingImage.image = placeholderImage2
         reviewCount.text = reviewCountText + " reviews"
+        
+        shouldUseGoogleMaps = (UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!))
+
 
         
+    }
+    
+    @IBAction func routeButton(sender: UIButton) {
+        
+        let address = "\(tempFullArray[0].address!)"
+        var addressWithPluses:String = address.stringByReplacingOccurrencesOfString(" ", withString: "+")
+        
+        if shouldUseGoogleMaps == true {
+            
+                let url = NSURL(string: "comgooglemaps://?saddr=&daddr=\(addressWithPluses)")
+                UIApplication.sharedApplication().openURL(url!)
+        }
+        
+        else {
+    
+                let url = NSURL(string: "http://maps.apple.com/maps?saddr=Current%20Location&daddr=\(addressWithPluses)")
+                UIApplication.sharedApplication().openURL(url!)
+            }
     }
 
     @IBAction func viewAllResults(sender: UIButton) {
